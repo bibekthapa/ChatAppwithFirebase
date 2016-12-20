@@ -9,6 +9,10 @@ public class ChatMessageModel {
     private String messageUser;
     private long messageTime;
 
+    public ChatMessageModel(){
+
+    }
+
     public ChatMessageModel(String messageText, String messageUser) {
         this.messageText = messageText;
         this.messageUser = messageUser;
@@ -17,9 +21,7 @@ public class ChatMessageModel {
         messageTime = new Date().getTime();
     }
 
-    public ChatMessageModel(){
 
-    }
 
     public String getMessageText() {
         return messageText;
