@@ -1,5 +1,6 @@
 package com.example.android.chatapp1;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,6 +11,7 @@ import android.text.format.DateFormat;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -50,8 +52,14 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 EditText input = (EditText) findViewById(R.id.input);
-                FirebaseDatabase.getInstance().getReference().push().setValue(new ChatMessageModel(input.getText().toString(), FirebaseAuth.getInstance().getCurrentUser().getDisplayName()));
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(input, InputMethodManager.SHOW_IMPLICIT);
+
+                if(input.getText().toString().trim().length()>0) {
+                    FirebaseDatabase.getInstance().getReference().push().setValue(new ChatMessageModel(input.getText().toString(), FirebaseAuth.getInstance().getCurrentUser().getDisplayName()));
+                }
                 input.setText("");
             }
         });
