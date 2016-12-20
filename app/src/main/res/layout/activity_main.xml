@@ -17,10 +17,13 @@
     android:id="@+id/fb1"
     android:clickable="true"
     android:tint="@android:color/white"
+    android:src="@drawable/messenger_bubble_large_blue"
     android:layout_alignParentBottom="true"
     android:layout_alignParentEnd="true"
     android:layout_alignParentRight="true"
     app:fabSize="mini"
+
+
     />
 
   <android.support.design.widget.TextInputLayout
