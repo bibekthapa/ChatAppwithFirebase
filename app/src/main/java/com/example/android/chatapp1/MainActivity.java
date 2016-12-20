@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.format.DateFormat;
 import android.view.Menu;
@@ -11,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,19 +27,22 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final int SIGN_IN_REQUEST_CODE = 10;
+    private static final int SIGN_IN_REQUEST_CODE = 1;
+    FirebaseListAdapter<ChatMessageModel> adapter;
+    RelativeLayout activity_main;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        activity_main=(RelativeLayout)findViewById(R.id.activity_main);
 
         if (FirebaseAuth.getInstance().getCurrentUser() == null) {
             startActivityForResult(AuthUI.getInstance().createSignInIntentBuilder().build(), SIGN_IN_REQUEST_CODE);
         } else {
 
-            Toast.makeText(this, "Welcome  " + FirebaseAuth.getInstance().getCurrentUser().getDisplayName(), Toast.LENGTH_LONG).show();
+            Snackbar.make(activity_main , "Welcome  " + FirebaseAuth.getInstance().getCurrentUser().getDisplayName(), Snackbar.LENGTH_LONG).show();
         }
         displayChatMessages();
 
@@ -54,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void displayChatMessages() {
-        FirebaseListAdapter<ChatMessageModel> adapter;
+
         DatabaseReference ref=FirebaseDatabase.getInstance().getReference();
 
         ListView listOfMessages = (ListView) findViewById(R.id.list_of_messages);
@@ -84,11 +89,11 @@ public class MainActivity extends AppCompatActivity {
 
         if (requestCode == SIGN_IN_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
-                Toast.makeText(this, "Signed in Successfully", Toast.LENGTH_LONG).show();
+                Snackbar.make(activity_main, "Signed in Successfully", Snackbar.LENGTH_LONG).show();
                 displayChatMessages();
 
             } else {
-                Toast.makeText(this, "We couldnot sign you . Plz try later", Toast.LENGTH_LONG).show();
+                Snackbar.make(activity_main, "We couldnot sign you . Plz try later", Snackbar.LENGTH_LONG).show();
                 finish();
             }
 
